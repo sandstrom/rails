@@ -184,6 +184,18 @@ module ActiveSupport
     def fetch(key, *extras)
       super(convert_key(key), *extras)
     end
+    
+    # Same as <tt>Hash#fetch_values</tt> where the keys passed as arguments
+    # can be either strings or symbols:
+    #
+    #   animals = ActiveSupport::HashWithIndifferentAccess.new
+    #   animals[:dog] = "Man's best friend"
+    #   animals[:cat] = "Alien"
+    #
+    #   animals.fetch_values("cat", :dog)    # => ["Alien", "Man's best friend"]
+    def fetch_values(*keys)
+      super(*keys.map { |k| convert_key(k) })
+    end
 
     # Returns an array of the values at the specified indices:
     #
